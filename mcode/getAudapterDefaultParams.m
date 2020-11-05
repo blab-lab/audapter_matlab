@@ -149,7 +149,7 @@ p.pertPhi2D=zeros(p.pertFieldN,p.pertFieldN);
 %% Pitch shift and delay related
 p.delayFrames = 0;
 p.bPitchShift = 0;
-p.bPitchShift2D = 0;
+p.bShift2D= 0;
 p.pitchShiftRatio = 1;
 p.pvocFrameLen = 256;
 p.pvocHop = 64;

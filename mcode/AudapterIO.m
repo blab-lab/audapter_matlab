@@ -172,8 +172,8 @@ switch(action)
         if (isfield(p, 'bPitchShift'))
             Audapter(3, 'bpitchshift', p.bPitchShift, toPrompt);
         end
-        if (isfield(p, 'bPitchShift2D'))  % Switch to use F1 in addition to F2
-            Audapter(3, 'bpitchshift2d', p.bPitchShift2D, toPrompt);
+        if (isfield(p, 'bShift2D'))  % Switch to use F1 and F2
+            Audapter(3, 'bshift2d', p.bShift2D, toPrompt);
         end        
         if (isfield(p, 'pitchShiftRatio'))
             Audapter(3, 'pitchshiftratio', p.pitchShiftRatio, toPrompt);
