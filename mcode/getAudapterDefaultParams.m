@@ -8,7 +8,7 @@ switch sex
         p.nLPC          = 15;	%SC-Mod(2008/02/08) Used to be 9
         p.fn1           = 675;
         p.fn2           = 1392;
-    otherwise,
+    otherwise
         error('specify sex (male / female');
 end
 
@@ -120,6 +120,7 @@ end
 
 p.bBypassFmt = 0;
 
+
 %% 
 p.fb2Gain = 1;
 
@@ -137,13 +138,18 @@ p.LBb=0;
 p.LBk=0;
 
 p.pertFieldN=257;
+p.pertF1=zeros(1,p.pertFieldN);
 p.pertF2=zeros(1,p.pertFieldN);
 p.pertAmp=zeros(1,p.pertFieldN);
 p.pertPhi=zeros(1,p.pertFieldN);
+p.pertAmp2D=zeros(p.pertFieldN,p.pertFieldN);
+p.pertPhi2D=zeros(p.pertFieldN,p.pertFieldN);
+
 
 %% Pitch shift and delay related
 p.delayFrames = 0;
 p.bPitchShift = 0;
+p.bShift2D= 0;
 p.pitchShiftRatio = 1;
 p.pvocFrameLen = 256;
 p.pvocHop = 64;

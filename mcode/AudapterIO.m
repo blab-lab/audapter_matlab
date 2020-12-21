@@ -5,7 +5,7 @@ persistent p
 toPrompt=0; % set to 1 when necessary during debugging
 
 switch(action)
-    case 'init',
+    case 'init'
         p=params;
         
         if isfield(p, 'downFact')
@@ -42,7 +42,7 @@ switch(action)
         end
         if (isfield(p,'bMelShift'))
             Audapter(3,'bmelshift',p.bMelShift, toPrompt);
-		end
+        end
 		
 %% SC(2009/02/06) RMS Clipping protection
 % 		if (isfield(p,'bRMSClip'))
@@ -86,6 +86,9 @@ switch(action)
         if (isfield(p,'LBb'))
             Audapter(3,'lbb',p.LBb, toPrompt);
         end
+        if (isfield(p,'pertF1'))   % Mel, 257(=256+1) points
+            Audapter(3,'pertf1',p.pertF1, toPrompt);
+        end
         if (isfield(p,'pertF2'))   % Mel, 257(=256+1) points
             Audapter(3,'pertf2',p.pertF2, toPrompt);
         end
@@ -94,6 +97,12 @@ switch(action)
         end   
         if (isfield(p,'pertPhi'))   % Mel, 257 points
             Audapter(3,'pertphi',p.pertPhi, toPrompt);
+        end       
+        if (isfield(p,'pertAmp2D'))   % Mel, 257x257 points
+            Audapter(3,'pertamp2d',p.pertAmp2D, toPrompt);
+        end   
+        if (isfield(p,'pertPhi2D'))   % Mel, 257x257 points
+            Audapter(3,'pertphi2d',p.pertPhi2D, toPrompt);
         end       
         
         if (isfield(p,'fb'))    % 2008/06/18
@@ -143,19 +152,19 @@ switch(action)
             Audapter(3,'fn2',1500, toPrompt);
         end
         
-        if (isfield(p, 'fb2Gain'));
+        if (isfield(p, 'fb2Gain'))
             Audapter(3, 'fb2gain', p.fb2Gain, toPrompt);
         end
         
-        if (isfield(p, 'fb3Gain'));
+        if (isfield(p, 'fb3Gain'))
             Audapter(3, 'fb3gain', p.fb3Gain, toPrompt);
         end
         
-        if (isfield(p, 'fb4GainDB'));
+        if (isfield(p, 'fb4GainDB'))
             Audapter(3, 'fb4gaindb', p.fb4GainDB, toPrompt);
         end
         
-        if (isfield(p, 'rmsFF_fb'));
+        if (isfield(p, 'rmsFF_fb'))
             Audapter(3, 'rmsff_fb', p.rmsFF_fb, toPrompt);
         end
         
@@ -163,6 +172,9 @@ switch(action)
         if (isfield(p, 'bPitchShift'))
             Audapter(3, 'bpitchshift', p.bPitchShift, toPrompt);
         end
+        if (isfield(p, 'bShift2D'))  % Switch to use F1 and F2
+            Audapter(3, 'bshift2d', p.bShift2D, toPrompt);
+        end        
         if (isfield(p, 'pitchShiftRatio'))
             Audapter(3, 'pitchshiftratio', p.pitchShiftRatio, toPrompt);
         end
@@ -238,7 +250,7 @@ switch(action)
             Audapter(3, 'pitchupperboundhz', 0, toPrompt);
         end
         if isfield(p, 'timeDomainPitchShiftSchedule')
-            if ndims(p.timeDomainPitchShiftSchedule) ~= 2
+            if ~ismatrix(p.timeDomainPitchShiftSchedule)
                 error('Unexpected number of dimensions in p.timeDomainPitchShiftSchedule: %d',...
                     ndims(p.timeDomainPitchShiftSchedule));
             end
@@ -279,17 +291,17 @@ switch(action)
         
         return;
 %%            
-    case 'process',
+    case 'process'
         Audapter(5,inFrame);
         return;
 
-    case 'getData',
+    case 'getData'
         nout=nargout;
         [signalMat,dataMat]=Audapter(4);        
         data=[];
 
         switch(nout)
-            case 1,
+            case 1
 %                 data.signalIn       = signalMat(:,1);
 %                 data.signalOut      = signalMat(:,2);
 % 
@@ -346,24 +358,24 @@ switch(action)
 
                 return;
 
-            case 2,
+            case 2
                 varargout(1)        = {signalMat(:,1)};
                 varargout(2)        = {signalMat(:,2)};
                 return;
 
-            case 3,
+            case 3
                 varargout(1)        = {transdataMat(1:2,2)'};
                 varargout(2)        = {transdataMat(1:2,3)'};
                 varargout(3)        = {transdataMat(2,1)-transdataMat(1,1)};
                 return;
 
-            otherwise,
+            otherwise
 
         end
-    case 'reset',
+    case 'reset'
         Audapter('reset');
         
-    case 'ost',
+    case 'ost'
         if nargin == 2
             Audapter(8, params);
         elseif nargin == 4
@@ -371,7 +383,7 @@ switch(action)
         else
             error('%s: Invalid syntax under mode: %s', mfilename, action);
         end
-    case 'pcf',
+    case 'pcf'
         if nargin == 2
             Audapter(9, params);
         elseif nargin == 4
@@ -382,7 +394,7 @@ switch(action)
         
         
         
-    otherwise,
+    otherwise
         
     uiwait(errordlg(['No such action : ' action ],'!! Error !!'));
 
