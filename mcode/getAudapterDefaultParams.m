@@ -89,9 +89,9 @@ p.bDetect       = 1;
 p.dFmtsForgFact = 0.93;% formants forgetting factor for derivate calculation
 
 % Shifting
-p.bShift        = 0;
-p.bRatioShift   = 1;
-p.bMelShift     = 0;    % Use mel as the unit
+p.bShift        = 0;    %set to 1 if you want to implement a formant shift
+p.bRatioShift   = 1;    %0 = using a shift in Hz or mels. 1 = the shift is a ratio of the current formant value (e.g. 1.3*current value).
+p.bMelShift     = 0;    %0 = specifying the shift in Hz.  1 = specifying the shift in mels.
 
 p.gainAdapt     =0;
 
@@ -149,7 +149,7 @@ p.pertPhi2D=zeros(p.pertFieldN,p.pertFieldN);
 %% Pitch shift and delay related
 p.delayFrames = 0;
 p.bPitchShift = 0;
-p.bShift2D= 0;
+p.bShift2D = 0;
 p.pitchShiftRatio = 1;
 p.pvocFrameLen = 256;
 p.pvocHop = 64;
