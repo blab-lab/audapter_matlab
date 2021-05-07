@@ -178,8 +178,8 @@ p.stereoMode = 1; % Left-right audio identical
 %% taimComp special formant clamping
 p.bClampFormants = 0;   % do not clamp formants to custom values
 p.clamp_osts = [0 0];   % OST status to start (ix 1) and stop (ix 2) clamping
-p.clamp_f1 = zeros(1, p.pertFieldN);    % f1 values to use during clamp
-p.clamp_f2 = zeros(1, p.pertFieldN);    % f2 values to use during clamp
+p.clamp_f1 = zeros(1, 2048);    % f1 values to use during clamp
+p.clamp_f2 = zeros(1, 2048);    % f2 values to use during clamp
 
 
 
