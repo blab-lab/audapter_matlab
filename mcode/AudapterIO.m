@@ -336,6 +336,10 @@ switch(action)
                 data.rms_slope      = dataMat(:, offS);
                               
                 offS = offS + 1;
+                data.rms_ratio        = dataMat(:, offS);     % CWN add-on
+                data.rms_ratio_slope  = dataMat(:, offS+1);   % CWN add-on
+                
+                offS = offS + 2;
                 data.ost_stat       = dataMat(:, offS);
                 
                 offS = offS + 1;
