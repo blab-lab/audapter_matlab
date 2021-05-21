@@ -79,7 +79,7 @@ else
 end
 
 p.rmsThresh     = 0.032*10^((getSPLTarg(p.mouthMicDist)-85)/20); % Before: 0.04*10^((getSPLTarg('prod')-85)/20); % 2009/11/27, changed from 0.04* to 0.032*
-p.rmsRatioThresh= 0.1;% threshold for sibilant / vowel detection
+p.rmsRatioThresh= 0.7;  % (fixed as of 5-2021) threshold for sibilant / vowel detection
 p.rmsMeanPeak   = 6*p.rmsThresh;
 p.rmsForgFact   = 0.95;% forgetting factor for rms computation
 
