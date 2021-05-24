@@ -46,11 +46,11 @@ if isequal(mode, 'persistentFormantShift')
     params.bRatioShift = 1;
     params.bMelShift = 0;
     
-    % Selecte feedback mode
-    if isempty(fsic(varargin, 'fb'))
+    % Select feedback mode
+    if ~any(strcmp(varargin, 'fb'))
        params.fb = 1; 
     else
-        fbMode = varargin{fsic(varargin, 'fb') + 1};
+        fbMode = varargin{find(strcmp(varargin, 'fb')) + 1};
         if ~(fbMode >= 0 && fbMode <=4 && floor(fbMode) == fbMode)
             error('Invalid fb mode: %d', fbMode);
         end
@@ -76,7 +76,7 @@ if isequal(mode, 'persistentFormantShift')
         end
         
         fprintf(1, 'Setting fb to %d\n', fbMode);
-        params.fb = varargin{fsic(varargin, 'fb') + 1};
+        params.fb = varargin{find(strcmp(varargin, 'fb')) + 1};
     end
     
 %     params.trialLen = 1.5;
@@ -95,7 +95,7 @@ if isequal(mode, 'persistentFormantShift')
     bVisFmts = 1;
     visName = 'Persistent formant shift';
     
-elseif isequal(mode, 'focalFormantShift');
+elseif isequal(mode, 'focalFormantShift')
     gender = varargin{1};
      
     ostFN = '../example_data/focal_fmt_pert.ost';
@@ -151,7 +151,7 @@ elseif isequal(mode, 'persistentPitchShift')
     bVis = 1;
     visName = 'Persistent pitch shift (up 2 semitones)';
     
-elseif isequal(mode, 'twoShortPitchShifts');
+elseif isequal(mode, 'twoShortPitchShifts')
     ostFN = '../example_data/two_blips.ost';
     pcfFN = '../example_data/two_pitch_shifts.pcf';
     
@@ -266,7 +266,7 @@ elseif isequal(mode, 'playWave')
     maxPBSize = Audapter('getMaxPBLen');
     
     sigInRS = resample(data.signalIn, sRate, data.params.sr);
-	if length(sigInRS) > maxPBSize
+    if length(sigInRS) > maxPBSize
         sigInRS = sigInRS(1 : maxPBSize);
     end
     Audapter('setParam', 'datapb', sigInRS);
