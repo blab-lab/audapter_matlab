@@ -11,7 +11,7 @@ if nargin >= 1
 end
 
 bPlay = 0;
-if ~isempty(fsic(varargin, '--play'))
+if any(strcmp(varargin, '--play'))
     bPlay = 1;
 end
 
@@ -90,8 +90,8 @@ sigInCell = makecell(sigIn, data.params.frameLen * data.params.downfact);
 p.rmsClipThresh=0.01;
 p.bRMSClip=1;
 
-if ~isempty(fsic(varargin, '--nLPC'))
-    p.nLPC = varargin{fsic(varargin, '--nLPC') + 1};
+if any(strcmp(varargin, '--nLPC'))
+    p.nLPC = varargin{find(strcmp(varargin, '--nLPC')) + 1};
 end
 
 AudapterIO('init', p);
@@ -114,7 +114,7 @@ show_spectrogram(data1.signalIn, fs, 'noFig');
 frameDur = data1.params.frameLen / data1.params.sr;
 tAxis = 0 : frameDur : frameDur * (size(data1.fmts, 1) - 1);
 
-if isequal(pertMode, 'formant');
+if isequal(pertMode, 'formant')
     plot(tAxis, data1.fmts(:, 1 : 2), 'b');
 end
 

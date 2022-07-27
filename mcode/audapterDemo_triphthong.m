@@ -2,15 +2,15 @@ function audapterDemo_triphthong(varargin)
 %% Config
 gender = 'female';
 
-toPlay = ~isempty(fsic(varargin, '--play')) || ~isempty(fsic(varargin, '-p'));
-timeDomainShift = ~isempty(fsic(varargin, '--time_domain_shift'));
+toPlay = any(ismember(varargin, {'--play' '-p'}));
+timeDomainShift = any(strcmp(varargin, '--time_domain_shift'));
 pitchGender = gender;
-if ~isempty(fsic(varargin, '--pitch_gender'))
-    pitchGender = varargin{fsic(varargin, '--pitch_gender') + 1};
+if any(strcmp(varargin, '--pitch_gender'))
+    pitchGender = varargin{find(strcmp(varargin, '--pitch_gender')) + 1};
 end
 customWav = '';
-if ~isempty(fsic(varargin, '--custom_wav'))
-    customWav = varargin{fsic(varargin, '--custom_wav') + 1};
+if any(strcmp(varargin, '--custom_wav'))
+    customWav = varargin{find(strcmp(varargin, '--custom_wav')) + 1};
 end
 
 downFact = 3; % Downsampling factor
@@ -18,8 +18,8 @@ fsNoDS = 48000; % Sampling rate, before downsampling
 frameLenNoDS = 96;  % Frame length before downsampling (# of samples)
 nLPC = 17;  % Order of linar prediction (LP)
 
-if ~isempty(fsic(varargin, '--framelen_no_ds'))
-    frameLenNoDS = varargin{fsic(varargin, '--framelen_no_ds') + 1};
+if any(strcmp(varargin, '--framelen_no_ds'))
+    frameLenNoDS = varargin{find(strcmp(varargin, '--framelen_no_ds')) + 1};
 end
 
 %% Set default parameters
