@@ -79,7 +79,7 @@ else
 end
 
 p.rmsThresh     = 0.032*10^((getSPLTarg(p.mouthMicDist)-85)/20); % Before: 0.04*10^((getSPLTarg('prod')-85)/20); % 2009/11/27, changed from 0.04* to 0.032*
-p.rmsRatioThresh= 0.1;  % threshold for sibilant / vowel detection
+p.rmsRatioThresh= 0.7;  % (fixed as of 5-2021) threshold for sibilant / vowel detection
 p.rmsMeanPeak   = 6*p.rmsThresh;
 p.rmsForgFact   = 0.95; % forgetting factor for rms computation
 
@@ -89,9 +89,9 @@ p.bDetect       = 1;
 p.dFmtsForgFact = 0.93;% formants forgetting factor for derivate calculation
 
 % Shifting
-p.bShift        = 0;
-p.bRatioShift   = 1;
-p.bMelShift     = 0;    % Use mel as the unit
+p.bShift        = 0;    %set to 1 if you want to implement a formant shift
+p.bRatioShift   = 1;    %0 = using a shift in Hz or mels. 1 = the shift is a ratio of the current formant value (e.g. 1.3*current value).
+p.bMelShift     = 0;    %0 = specifying the shift in Hz.  1 = specifying the shift in mels.
 
 p.gainAdapt     =0;
 
@@ -149,7 +149,7 @@ p.pertPhi2D=zeros(p.pertFieldN,p.pertFieldN);
 %% Pitch shift and delay related
 p.delayFrames = 0;
 p.bPitchShift = 0;
-p.bShift2D= 0;
+p.bShift2D = 0;
 p.pitchShiftRatio = 1;
 p.pvocFrameLen = 256;
 p.pvocHop = 64;
@@ -174,5 +174,13 @@ p.timeDomainPitchShiftSchedule = 1.0;
 
 %%
 p.stereoMode = 1; % Left-right audio identical
+
+%% taimComp special formant clamping
+p.bClampFormants = 0;   % do not clamp formants to custom values
+p.clamp_osts = [0 0];   % OST status to start (ix 1) and stop (ix 2) clamping
+p.clamp_f1 = zeros(1, 2048);    % f1 values to use during clamp
+p.clamp_f2 = zeros(1, 2048);    % f2 values to use during clamp
+
+
 
 return

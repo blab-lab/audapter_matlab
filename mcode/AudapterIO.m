@@ -289,6 +289,21 @@ switch(action)
             Audapter(3, 'dataPB', p.dataPB, toPrompt);
         end
         
+        %% taimComp special formant clamping 2021-02
+        if isfield(p, 'bClampFormants')
+            Audapter(3, 'bclampformants', p.bClampFormants, toPrompt);
+        end
+        if isfield(p, 'clamp_osts')
+            Audapter(3, 'clamposts', p.clamp_osts, toPrompt);
+        end
+        if isfield(p, 'clamp_f1')
+            Audapter(3, 'clampf1', p.clamp_f1, toPrompt);
+        end
+        if isfield(p, 'clamp_f2')
+            Audapter(3, 'clampf2', p.clamp_f2, toPrompt);
+        end
+        
+        
         return;
 %%            
     case 'process'
