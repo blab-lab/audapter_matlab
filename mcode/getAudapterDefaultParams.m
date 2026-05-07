@@ -129,6 +129,9 @@ p.fb3Gain = dBSPL2WaveAmp(-Inf);
 p.fb4GainDB = 10;
 p.rmsFF_fb = [0.8, 0.99, 0.1, 0.1];
 
+p.fb5Gain_speechDB = 10;
+p.fb5Gain_noise = 1.0;
+
 %% Perturbation-related variables: these are for the mel (bMelShift=1) or Hz (bMelShift=0) frequency space
 p.F2Min=0;
 p.F2Max=5000;
