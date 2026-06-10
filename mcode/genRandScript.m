@@ -23,8 +23,12 @@ if ~isempty(fullSchedFN)
             fullSchedFN);
 end
 
-check_pos_int(nBlocks, 'N_BLOCKS_PER_RAND_RUN must be a positive integer');
-check_pos_int(trialsPerBlock, 'TRIALS_PER_BLOCK must be a positive integer');
+if nBlocks < 1 || ~isnumeric(nBlocks)
+    error('N_BLOCKS_PER_RAND_RUN must be a positive integer');
+end
+if trialsPerBlock < 1 || ~isnumeric(trialsPerBlock)
+    error('TRIALS_PER_BLOCK must be a positive integer');
+end
 
 
 %% trialTypes
@@ -66,8 +70,9 @@ else
                                        isequal(lower(a_trialTypes{end}), 'baseline'));
         a_nTrialsPerBlock(end + 1) = str2double(t_strs{1});
 
-        check_pos_int(a_nTrialsPerBlock(end), ...
-                      'Number of trials in TRIAL_TYPES_IN_BLOCK must be positive integers', 1); % Allow zero
+        if a_nTrialsPerBlock(end) < 0 || ~isnumeric(a_nTrialsPerBlock(end)) % Allow zero
+            error('Number of trials in TRIAL_TYPES_IN_BLOCK must be positive integers');
+        end
     end
 
     if length(unique(a_trialTypes)) ~= length(a_trialTypes)
@@ -194,7 +199,10 @@ for i1 = 1 : numel(a_trialTypesPert)
     end
 
     a_numShifts.(tt) = str2double(t_val);    
-    check_pos_int(a_numShifts.(tt), 'Number of shifts must be a positive integer');    
+
+    if a_numShifts.(tt) < 1 || ~isnumeric(a_numShifts.(tt))
+        error('Number of shifts must be a positive integer');
+    end
 end
 
 %% interShiftDelays
