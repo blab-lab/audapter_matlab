@@ -164,12 +164,12 @@ switch(action)
             Audapter(3, 'fb4gaindb', p.fb4GainDB, toPrompt);
         end
 
-        if (isfield(p, 'fb5gain_speech'))
-            Audapter(3, 'fb5gain_speech', p.fb5gain_speech, toPrompt);
+        if (isfield(p, 'fb5GainDB_speech'))
+            Audapter(3, 'fb5gaindb_speech', p.fb5GainDB_speech, toPrompt);
         end
 
-        if (isfield(p, 'fb5gain_noise'))
-            Audapter(3, 'fb5gain_noise', p.fb5gain_noise, toPrompt);
+        if (isfield(p, 'fb5Gain_playback'))
+            Audapter(3, 'fb5gain_playback', p.fb5Gain_playback, toPrompt);
         end
         
         if (isfield(p, 'rmsFF_fb'))
