@@ -28,7 +28,7 @@ Audapter(9, pcf_fn, 1);
 % Audapter(3, 'bpitchshift', 0, 1);
 
 %% Load the multi-talker babble noise
-[mbw, fs_mtb]=read_audio('mtbabble48k.wav');
+[mbw, fs_mtb]=audioread('mtbabble48k.wav');
 
 % Normalize the amplitude of the mtb noise
 mbw = mbw - mean(mbw);

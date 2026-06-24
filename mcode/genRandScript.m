@@ -52,7 +52,7 @@ if ~isempty(fullSchedFN)
     
 else
     trialTypes = strip_brackets(trialTypes, 'Wrong format in field TRIAL_TYPES_IN_BLOCK');
-    t_items = splitstring(trialTypes, ',');
+    t_items = strsplit(trialTypes, ',');
 
     for i1 = 1 : numel(t_items)
         if length(strfind(t_items{i1}, '-')) ~= 1
@@ -60,7 +60,7 @@ else
                   i1, t_items{i1});
         end
 
-        t_strs = splitstring(t_items{i1}, '-');
+        t_strs = strsplit(t_items{i1}, '-');
         a_trialTypes{end + 1} = t_strs{2};
         a_trialTypeIsPert(end + 1) = ~(isequal(lower(a_trialTypes{end}), 'ctrl') || ...
                                        isequal(lower(a_trialTypes{end}), 'baseline'));
@@ -299,7 +299,7 @@ for i1 = 1 : numel(a_trialTypesPert)
     if ~isempty(strfind(t_val, '-'))
         error('Unrecognized format in PITCH_SHIFT_DURS_MS')
     end
-    t_vals = splitstring(t_val, ',');
+    t_vals = strsplit(t_val, ',');
 
     if length(t_vals) == 1
         a_shiftDurs_ms.(tt) = repmat(str2double(t_vals{1}), 1, a_numShifts.(tt));
@@ -517,6 +517,77 @@ end
 
 return
 
+function out = string2intervals(str, bCheckOrder)
+%% Constants
+sep = ',';
+
+%%
+out = {};
+
+str = strrep(str, ' ', '');
+if ~isequal(str(end), sep)
+    str = [str, sep];
+end
+
+idx = 1;
+bBracket = 0;
+tmpStr = [];
+while idx <= length(str)
+    if bBracket == 0
+        if isequal(str(idx), '[')
+            bBracket = 1;
+        elseif isequal(str(idx), ']')
+            error('Unexpected right bracket');
+        elseif isequal(str(idx), sep)
+            if isempty(strfind(tmpStr, '-'))
+                out{end + 1} = repmat(str2double(tmpStr), 1, 2);
+            elseif length(strfind(tmpStr, '-') == 1)
+                t_vals = strsplit(tmpStr, '-');
+                t_array = [str2double(t_vals{1}), str2double(t_vals{2})];         
+                if bCheckOrder
+                    t_array = sort(t_array);
+                end
+                out{end + 1} = t_array;
+            end
+               
+            tmpStr = [];
+        else
+            tmpStr = [tmpStr, str(idx)];
+        end
+    else
+        if isequal(str(idx), ']')
+            bBracket = 0;
+            if isempty(strfind(tmpStr, '-'))
+                out{end + 1} = repmat(str2double(tmpStr), 1, 2);
+            elseif length(strfind(tmpStr, '-') == 1)
+                t_vals = strsplit(tmpstr, '-');
+                t_array = [str2double(t_vals{1}), str2double(t_vals{2})];         
+                if bCheckOrder
+                    t_array = sort(t_array);
+                end
+                out{end + 1} = t_array;     
+            end
+            
+            tmpStr = [];
+        elseif isequal(str(idx), '[')
+            error('Unexpected left bracket');
+        else
+            tmpStr = [tmpStr, str(idx)];
+        end
+        
+    end
+    idx = idx + 1;
+end
+
+%% Prune results
+bPreserve = zeros(1, length(out));
+for i1 = 1 : length(out)
+    bPreserve(i1) = ~isnan(out{i1}(1));        
+end
+
+out = out(find(bPreserve));
+return
+
 function str1 = strip_brackets(str0, errMsg)
 str1 = strrep(deblank(str0), ' ', '');
 if length(str1) <= 3 || ...
@@ -581,7 +652,7 @@ for i1 = 1 : numel(a_trialTypesPert)
 %     if ~isempty(strfind(t_val, '-'))
 %         error('Unrecognized format in PITCH_SHIFTS_CENT')
 %     end
-    t_vals = splitstring(t_val, ',');
+    t_vals = strsplit(t_val, ',');
 
     if length(t_vals) == 1
         a_shifts.(tt) = repmat(str2double(t_vals{1}), 1, a_numShifts.(tt));
