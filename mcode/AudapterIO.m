@@ -165,11 +165,25 @@ switch(action)
         end
 
         if (isfield(p, 'fb5GainDB_speech'))
-            Audapter(3, 'fb5gaindb_speech', p.fb5GainDB_speech, toPrompt);
+            try
+                Audapter(3, 'fb5gaindb_speech', p.fb5GainDB_speech, toPrompt);
+            catch ME
+                audapterSetParamError(ME, 'b2.5')
+                if isfield(p,'fb') && p.fb == 5 % actually error out if using feedback mode 5
+                    rethrow(ME);
+                end
+            end
         end
 
         if (isfield(p, 'fb5Gain_playback'))
-            Audapter(3, 'fb5gain_playback', p.fb5Gain_playback, toPrompt);
+            try
+                Audapter(3, 'fb5gain_playback', p.fb5Gain_playback, toPrompt);
+            catch ME
+                audapterSetParamError(ME, 'b2.5')
+                if isfield(p,'fb') && p.fb == 5 % actually error out if using feedback mode 5
+                    rethrow(ME);
+                end
+            end
         end
         
         if (isfield(p, 'rmsFF_fb'))
@@ -422,4 +436,17 @@ switch(action)
     uiwait(errordlg(['No such action : ' action ],'!! Error !!'));
 
 
+end
+
+end
+
+
+
+function audapterSetParamError(ME, versionName)
+    warning(['Audapter returned an error with this message: \n"%s".\n' ...
+        'The error may be due to a mismatch between your version of the Audapter mex file vs Audapter MATLAB files, ' ...
+        'since this field was introduced in blab-lab fork Audapter version %s. ' ...
+        'You can check the Audapter mex file version with Audapter(''version''), and ' ...
+        'you can check the Audapter MATLAB files version in audapter_matlab/README.md.'], ...
+        ME.message, versionName);
 end
