@@ -216,7 +216,7 @@ if bNew % set up new experiment
                               expt_config.SUST_F1_SHIFTS_RATIO, expt_config.SUST_F2_SHIFTS_RATIO, ...
                               expt_config.SUST_SHIFT_DURS_MS, expt_config.SUST_STIM_UTTER, '');
         else
-            info_log(sprintf('Sust phase %s will not be included due to nReps == 0', t_phase));
+            warning('Sust phase %s will not be included due to nReps == 0', t_phase);
             idxKeep = setxor(1 : length(expt.allPhases), fsic(expt.allPhases, t_phase));
             expt.allPhases = expt.allPhases(idxKeep);
             expt.recPhases = expt.recPhases(idxKeep);
@@ -315,7 +315,7 @@ else
 end
 
 %% Load the multi-talker babble noise
-[mbw, fs_mtb]=read_audio('mtbabble48k.wav');
+[mbw, fs_mtb]=audioread('mtbabble48k.wav');
 
 % Normalize the amplitude of the mtb noise
 mbw = mbw - mean(mbw);
