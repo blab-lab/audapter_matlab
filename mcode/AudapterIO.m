@@ -168,9 +168,11 @@ switch(action)
             try
                 Audapter(3, 'fb5gaindb_speech', p.fb5GainDB_speech, toPrompt);
             catch ME
-                audapterSetParamError(ME, 'b2.5')
-                if isfield(p,'fb') && p.fb == 5 % actually error out if using feedback mode 5
-                    rethrow(ME);
+                % only throw error and warn user if in feedback mode 5.
+                % This makes it backwards compatible.
+                if isfield(p,'fb') && p.fb == 5 
+                    audapterSetParamError(ME, 'b2.5')
+                    rethrow(ME); % actually error out if using feedback mode 5
                 end
             end
         end
@@ -179,9 +181,11 @@ switch(action)
             try
                 Audapter(3, 'fb5gain_playback', p.fb5Gain_playback, toPrompt);
             catch ME
-                audapterSetParamError(ME, 'b2.5')
-                if isfield(p,'fb') && p.fb == 5 % actually error out if using feedback mode 5
-                    rethrow(ME);
+                % only throw error and warn user if in feedback mode 5.
+                % This makes it backwards compatible.
+                if isfield(p,'fb') && p.fb == 5 
+                    audapterSetParamError(ME, 'b2.5')
+                    rethrow(ME); % actually error out if using feedback mode 5
                 end
             end
         end
