@@ -126,7 +126,13 @@ p.fb2Gain = 1;
 
 p.fb3Gain = dBSPL2WaveAmp(-Inf);
 
-p.fb4GainDB = 10;
+% feedback mode 4 is speech-modulated noise.
+p.fb4GainDB = 10; % A gain multiplier calculated as 10^(p.fb4GainDB / 20). So if p.fb4GainDB is set to 0, the gain multiplier is set to 1.
+
+% feedback mode 5 is playback (noise) + speech-modulated playback (noise)
+p.fb5GainDB_speech = 0.0;   % gain multiplier (in dB) for the speech-modulated noise component. Actual scaling factor is 10^(p.fb5GainDB_speech / 20). So if p.fb5GainDB is set to 0, the gain multiplier is set to 1.
+p.fb5Gain_playback = 1.0;   % gain multiplier (linear scaling factor) for the constant noise component
+
 p.rmsFF_fb = [0.8, 0.99, 0.1, 0.1];
 
 %% Perturbation-related variables: these are for the mel (bMelShift=1) or Hz (bMelShift=0) frequency space
