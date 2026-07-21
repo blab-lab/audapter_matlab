@@ -22,8 +22,7 @@ paramNames = {'bShift',     'bTrack',       'bDetect',      'bWeight', ...
               'pertAmp2D',  'pertPhi',      'pertPhi2D',    'gain', ...
               'tsgToneDur', 'tsgToneFreq',  'tsgToneAmp',   'tsgToneRamp', ...
               'tsgInt', ...
-              'bClampFormants','clamposts', 'clampf1'       'clampf2', ...
-              'fb5GainDB_speech', 'fb5Gain_playback'};
+              'bClampFormants','clamposts', 'clampf1'       'clampf2'};
 
 % TODO: datapb length
 
@@ -31,6 +30,17 @@ for i1 = 1 : numel(paramNames)
     pn = paramNames{i1};
 
     p.(pn) = Audapter('getParam', pn);
+end
+
+% Add parameters introduced in version b2.5. If Audapter mex file doesn't
+% have these parameters because it's an older version, they'll be skipped
+paramNames_version_b2point5 = {'fb5GainDB_speech', 'fb5Gain_playback'};
+for i1 = 1 : numel(paramNames_version_b2point5)
+    pn = paramNames_version_b2point5{i1};
+    try
+        p.(pn) = Audapter('getParam', pn);
+    catch
+    end
 end
 
 % --- Aliased paramters --- %
