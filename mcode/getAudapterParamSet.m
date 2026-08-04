@@ -32,6 +32,17 @@ for i1 = 1 : numel(paramNames)
     p.(pn) = Audapter('getParam', pn);
 end
 
+% Add parameters introduced in version b2.5. If Audapter mex file doesn't
+% have these parameters because it's an older version, they'll be skipped
+paramNames_version_b2point5 = {'fb5GainDB_speech', 'fb5Gain_playback'};
+for i1 = 1 : numel(paramNames_version_b2point5)
+    pn = paramNames_version_b2point5{i1};
+    try
+        p.(pn) = Audapter('getParam', pn);
+    catch
+    end
+end
+
 % --- Aliased paramters --- %
 p.rmsThresh = p.rmsThr;
 p.sr = p.sRate;
